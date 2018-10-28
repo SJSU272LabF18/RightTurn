@@ -28,7 +28,8 @@ Google API<br/><br/>
 
 
 
-<h2><b>Project Idea #2:Analysis Of Right Turn accidents in California</b></h2>
+<h2><b>Project Idea #2:Analysis Of Right Turn accidents in California</b></h2>    - APPROVED
+comment: have to have predicting capability at granular level such as pedesterian accident 
 
 <b>Description</b><br/><br/>
 Right turn is frequent problem for big vehicles. Accidents can occur for many reasons, such as
