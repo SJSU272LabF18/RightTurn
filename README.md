@@ -8,8 +8,10 @@ Sneha Thomas-              012517076<br/>
 Vandana Kudigrama Shenoy-  013741481<br/>
 Akshay Anil Pagar-         013717379<br/>
 
-<h2><b>Project Idea :Analysis Of Right Turn accidents in California</b></h2>    - APPROVED
+<h2><b>Project Idea :Analysis Of Right Turn accidents in California - APPROVED </b></h2>
+
 comment: have to have predicting capability at granular level such as pedesterian accident 
+
 
 <b>Description</b><br/><br/>
 Right turn is frequent problem for big vehicles. Accidents can occur for many reasons, such as
