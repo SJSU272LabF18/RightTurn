@@ -1,0 +1,21 @@
+{% extends "head.html" %}
+{% set currenttab = 'home' %}
+{% block bodycontent %}   
+
+	<div style="padding-bottom:10px;"></div>
+	<div class="row">
+	  <div class="col-sm-4" style= "padding-left:100px;">
+	  <h5 style = "padding-bottom:50px">Making a right turn on a street, road, or intersection is an everyday occurrence for anyone who drives, but it must still be done with caution and the driver’s full attention.</h5>
+
+	  <h5>Right Turn Analysis has been developed to provide the analysis of the California's Right Turn Accidents and help identify the causes of these accidents.</h5>
+	  <h5>{{ posts}}</h5>
+
+	  </div>
+	  <div class="col-sm-4">
+	<div class="row" style = "width:75rem;">
+	  <div class="col-sm-8 container" ><a href = "/searchbycounty?county=45"><img src="/static/images/cal.jpeg" class="img-thumbnail" style = "width:75%; height:75%"/></a></div>
+	</div>
+	</div>
+
+	</div>
+{% endblock %}
