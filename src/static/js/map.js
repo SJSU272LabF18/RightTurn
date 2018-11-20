@@ -1,13 +1,26 @@
 	
+	// control that shows state info on hover
+	var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = (props ?
+			'<b>' + props.name + '</b><br />' + props.density +' accidents'
+			: 'Hover over a state');
+	};
+
+	info.addTo(map);
+
 	function getColor(d) {
-		return d > 1000 ? '#800026' :
-				d > 500  ? '#BD0026' :
-				d > 200  ? '#E31A1C' :
-				d > 100  ? '#FC4E2A' :
-				d > 50   ? '#FD8D3C' :
-				d > 20   ? '#FEB24C' :
-				d > 10   ? '#FED976' :
-							'#FFEDA0';
+		return d > 500 ? '#800026' :
+				d > 300   ? '#FEB24C' :
+				d > 20   ? '#3BCA25' :
+						   '#23b70c';
 	}
 
 	function style(feature) {
@@ -34,8 +47,9 @@
 		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
 			layer.bringToFront();
 		}
-
+        
 		info.update(layer.feature.properties);
+
 	}
 	
 	var geojson;
@@ -45,7 +59,7 @@
 		info.update();
 	}
 
-	function zoomToFeature(e) {
+	function getcountydata(e) {
 		//map.fitBounds(e.target.getBounds());
 		console.log(e);
 		//alert(e.target.feature.id)
@@ -55,9 +69,9 @@
 
 	function onEachFeature(feature, layer) {
 		layer.on({
-			mouseover: highlightFeature,
+			mouseover: highlightFeature, 
 			mouseout: resetHighlight,
-			click: zoomToFeature
+			click: getcountydata
 		});
 	}
 
@@ -65,3 +79,23 @@
 		style: style,
 		onEachFeature: onEachFeature
 	}).addTo(map);
+	
+	var legend = L.control({position: 'bottomleft'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			grades = [0, 20, 300, 500],
+			labels = [];
+
+		// loop through our density intervals and generate a label with a colored square for each interval
+		for (var i = 0; i < grades.length; i++) {
+			div.innerHTML +=
+				'<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+				grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+		}
+
+		return div;
+	};
+
+	legend.addTo(map);
