@@ -1,0 +1,34 @@
+{% extends "header.html" %}
+{% set currenttab = 'home' %}
+
+{% block scriptcontent %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+{% endblock %}
+
+{% block bodycontent %}   
+      <div class="container-fluid body-padding">
+        <div class="row">
+
+          <div class="col-sm-5">
+            <h5 style = "padding-bottom:50px">Making a right turn on a street, road, or intersection is an everyday occurrence for anyone who drives, but it must still be done with caution and the driver’s full attention.</h5>
+
+            <h5>Right Turn Analysis has been developed to provide the analysis of the California's Right Turn Accidents and help identify the causes of these accidents.</h5>
+            <h5>{{ posts}}</h5>
+          </div>
+
+            <div class="col-sm-7">
+              <div style="margin:auto"> <div id= "map"></div></div>
+              <script type="text/javascript">
+                var statesData = JSON.parse('{{ accidents_data | tojson | safe}}');
+              </script>
+              <script type="text/javascript">
+              var map = L.map('map',{zoomControl:false}).setView([37.3, -121], 6);
+              L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png').addTo(map);
+              </script>
+              <script type="text/javascript" src ="/static/js/map.js">
+            </div>
+        </div>
+
+      </div>
+{% endblock %}

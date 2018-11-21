@@ -1,0 +1,48 @@
+{% extends "header.html" %}
+{% set currenttab = 'county' %}
+
+{% block scriptcontent %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src = "/static/js/charts.js"> </script>
+{% endblock scriptcontent %}    
+    
+{% block bodycontent %}    
+	<div id="County Level" class="body-padding">
+	  	<form>
+		  Select County:
+		  <select name="county" style="margin-right:20px">
+		    {% for id,name in counties %}
+			    {% if sel_county == id %}
+					<option selected value={{ id }}>{{ name }}</option>
+				{% else %}
+					<option value={{ id }}>{{ name }}</option>
+				{% endif %}
+			{% endfor %}
+		  </select>
+		  {% block addcombo %}{% endblock %}
+		  <br><br>
+	 	</form>
+
+		<ul class="nav nav-tabs">
+		  <li class="nav-item">
+		    <a class="nav-link" href="/searchbycounty/dataview">Data</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link active" href="/searchbycounty/mapview">Map</a>
+		  </li>
+	 	</ul>
+
+
+
+		<div class="tab-content" id="pills-tabContent">
+		  <div class="tab-pane fade in active show" id="pills-data" role="tabpanel" aria-labelledby="data">
+
+  			<p> <div class="col-sm-8 container"><img src="{{url_for('static',filename = 'images/countyview.jpg' )}}" class="img-thumbnail" style = "width:75%; height:75%"/></div>
+		  </div>
+		</div>
+	  {% block extracountyinfo %}{% endblock extracountyinfo %}
+	</div>
+	
+{% endblock bodycontent %}
