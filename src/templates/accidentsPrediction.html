@@ -6,23 +6,17 @@
 	<div class="container-fluid">    
 		<div class="row">
 			<div class="col-md-4 collision-factors" >
-				<h3>Collision Factors</h3><br>
+				<h3>Please choose the conditions to predict</h3><br>
+				
+				<form action="/action_page.php">
+				  Collision Date:
+				  <input type="datetime-local" name="collision_datetime">
+				  
+				</form><br>
 				<h5>Lighting</h5>
 				<div class="input-group">
 					<div class="pad">
 						<input type="radio" aria-label="Radio for following text input">
-					</div>
-					<label>Street Light not functioning</label>
-				</div>
-
-				<div class="input-group">
-					<div class="pad"><input type="radio" aria-label="Radio for following text input">
-					</div>
-			  		<label>No street lights</label>
-				</div>
-
-				<div class="input-group">
-					<div class="pad"><input type="radio" aria-label="Radio for following text input">
 					</div>
 					<label>Daylight</label>
 				</div>
@@ -30,43 +24,156 @@
 				<div class="input-group">
 					<div class="pad"><input type="radio" aria-label="Radio for following text input">
 					</div>
+			  		<label>Dusk Dawn</label>
+				</div>
+
+				<div class="input-group">
+					<div class="pad"><input type="radio" aria-label="Radio for following text input">
+					</div>
 					<label>Dark - Street Lights</label>
+				</div>
+				
+				<div class="input-group">
+					<div class="pad"><input type="radio" aria-label="Radio for following text input">
+					</div>
+					<label>Dark - No Street Lights</label>
+				</div>
+
+				<div class="input-group">
+					<div class="pad"><input type="radio" aria-label="Radio for following text input">
+					</div>
+					<label>Dark - Street Lights Not Functioning</label>
+				</div>
+				
+				<div class="input-group">
+					<div class="pad"><input type="radio" aria-label="Radio for following text input">
+					</div>
+					<label>Not stated</label>
 				</div><br>
 
 				<h5>Road Conditions</h5>
 					<div class="input-group">
 						<div class="pad"><input type="radio" aria-label="Radio for following text input">
 						</div>
-						<label>Construction Zone</label>
+						<label>Holes, Deep Ruts</label>
 					</div>
 
 					<div class="input-group">
 					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
 						</div>
+						<label>Loose Material on Roadway</label>
+					</div>
+					
+					<div class="input-group">
+					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
+						</div>
+						<label>Construction or Repair Zone</label>
+					</div>
+					
+					<div class="input-group">
+					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
+						</div>
 						<label>Reduced Roadway Width</label>
-					</div><br>
-				<h5>Pedestrian Action</h5>
+					</div>
+					
+					<div class="input-group">
+					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
+						</div>
+						<label>Flooded</label>
+					</div>
+					
+					<div class="input-group">
+					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
+						</div>
+						<label>Other</label>
+					</div>
+					
+					<div class="input-group">
+					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
+						</div>
+						<label>No Unusual Condition</label>
+					</div>
+					
+					<div class="input-group">
+					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
+						</div>
+						<label>Not Stated</label>
+					</div>
+					<br>
+				
+				<h5>Road Surface</h5>
 					<div class="input-group">
 						<div class="pad"><input type="radio" aria-label="Radio for following text input">
 						</div>
-						 <label>Crossing not in Crosswalk</label>
+						 <label>Dry</label>
 					</div>
 					<div class="input-group">
 						  <div class="pad">
 						  	<input type="radio" aria-label="Radio for following text input">
 						  </div>
-						  <label>Crossing in crosswalk not in intersection</label>
+						  <label>Wet</label>
 						</div>
 					<div class="input-group">
 					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
 						</div>
-						<label>Crossing in crosswalk at intersection</label>
+						<label>Snowy or Icy</label>
 					</div>
 
 					<div class="input-group">
 						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
-						<label>In road including shoulder</label>
+						<label>Slippery</label>
 					</div>
+					
+					<div class="input-group">
+					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
+						</div>
+						<label>Not Stated</label>
+					</div>
+					<br>
+					
+				<h5>Weather</h5>
+					<div class="input-group">
+						<div class="pad"><input type="radio" aria-label="Radio for following text input">
+						</div>
+						 <label>Clear</label>
+					</div>
+					<div class="input-group">
+						  <div class="pad">
+						  	<input type="radio" aria-label="Radio for following text input">
+						  </div>
+						  <label>Cloudy</label>
+						</div>
+					<div class="input-group">
+					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
+						</div>
+						<label>Raining</label>
+					</div>
+
+					<div class="input-group">
+						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
+						<label>Snowing</label>
+					</div>
+					
+					<div class="input-group">
+						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
+						<label>Fog</label>
+					</div>
+					
+					<div class="input-group">
+						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
+						<label>Other</label>
+					</div>
+					
+					<div class="input-group">
+						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
+						<label>Wind</label>
+					</div>
+					
+				    <div class="input-group">
+						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
+						<label>Not Stated</label>
+					</div><br>
+				<input type="submit">
 				</div>
 				<div class ="col-md-8">
 	  				<div id="chartContainer" style="height: 250px; width: 70%; padding: 15% 7%"></div>
