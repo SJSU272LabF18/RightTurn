@@ -1,5 +1,9 @@
 {% extends "header.html" %}
 {% set currenttab = 'accidents-prediction' %}
+{% block scriptcontent %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+{% endblock %}
 
 {% block bodycontent %}
 <div class="accidents-prediction">
@@ -8,210 +12,99 @@
 			<div class="col-md-4 collision-factors" >
 				<h3>Please choose the conditions to predict</h3><br>
 				
-				<form action="/action_page.php">
-				  Collision Date:
+				<form >
+				  <h5>Date and Time</h5>
 				  <input type="datetime-local" name="collision_datetime">
 				  
-				</form><br>
+				<br><br>
+				
 				<h5>Lighting</h5>
-				<div class="input-group">
-					<div class="pad">
-						<input type="radio" aria-label="Radio for following text input">
-					</div>
-					<label>Daylight</label>
-				</div>
-
-				<div class="input-group">
-					<div class="pad"><input type="radio" aria-label="Radio for following text input">
-					</div>
-			  		<label>Dusk Dawn</label>
-				</div>
-
-				<div class="input-group">
-					<div class="pad"><input type="radio" aria-label="Radio for following text input">
-					</div>
-					<label>Dark - Street Lights</label>
-				</div>
+					<select name="lighting" style="margin-right:20px">
+							<option value='A'>DayLight</option>
+							<option value='B'>Dusk Dawn</option>
+							<option value='C'>Dark - Street Lights</option>
+							<option value='D'>Dark - No Street Lights</option>
+							<option value='E'>Dark - Street Lights Not Functioning</option>
+							<option selected value='_'>Not Stated</option>
+					</select>
+				<br><br>
 				
-				<div class="input-group">
-					<div class="pad"><input type="radio" aria-label="Radio for following text input">
-					</div>
-					<label>Dark - No Street Lights</label>
-				</div>
-
-				<div class="input-group">
-					<div class="pad"><input type="radio" aria-label="Radio for following text input">
-					</div>
-					<label>Dark - Street Lights Not Functioning</label>
-				</div>
 				
-				<div class="input-group">
-					<div class="pad"><input type="radio" aria-label="Radio for following text input">
-					</div>
-					<label>Not stated</label>
-				</div><br>
-
 				<h5>Road Conditions</h5>
-					<div class="input-group">
-						<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Holes, Deep Ruts</label>
-					</div>
-
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Loose Material on Roadway</label>
-					</div>
+					<select name="roadCondition" style="margin-right:20px">
+							<option value='A'>Holes, Deep Ruts</option>
+							<option value='B'>Loose Material on Roadway</option>
+							<option value='C'>Obstruction on Roadway</option>
+							<option value='D'>Construction or Repair Zone</option>
+							<option value='E'>Reduced Roadway Width</option>
+							<option value='F'>Flooded</option>
+							<option value='G'>Other</option>
+							<option value='H'>No Unusual Condition</option>
+							<option selected value='_'>Not Stated</option>
 					
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Construction or Repair Zone</label>
-					</div>
+					</select>
+				<br><br>
 					
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Reduced Roadway Width</label>
-					</div>
-					
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Flooded</label>
-					</div>
-					
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Other</label>
-					</div>
-					
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>No Unusual Condition</label>
-					</div>
-					
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Not Stated</label>
-					</div>
-					<br>
-				
 				<h5>Road Surface</h5>
-					<div class="input-group">
-						<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						 <label>Dry</label>
-					</div>
-					<div class="input-group">
-						  <div class="pad">
-						  	<input type="radio" aria-label="Radio for following text input">
-						  </div>
-						  <label>Wet</label>
-						</div>
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Snowy or Icy</label>
-					</div>
-
-					<div class="input-group">
-						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
-						<label>Slippery</label>
-					</div>
+					<select name="roadSurface" style="margin-right:20px">
+							<option value='A'>Dry</option>
+							<option value='B'>Wet</option>
+							<option value='C'>Snowy or Icy</option>
+							<option value='D'>Slippery</option>
+							<option selected value='_'>Not Stated</option>
 					
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Not Stated</label>
-					</div>
-					<br>
+					</select>
+				<br><br>
+				
 					
 				<h5>Weather</h5>
-					<div class="input-group">
-						<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						 <label>Clear</label>
-					</div>
-					<div class="input-group">
-						  <div class="pad">
-						  	<input type="radio" aria-label="Radio for following text input">
-						  </div>
-						  <label>Cloudy</label>
-						</div>
-					<div class="input-group">
-					  	<div class="pad"><input type="radio" aria-label="Radio for following text input">
-						</div>
-						<label>Raining</label>
-					</div>
-
-					<div class="input-group">
-						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
-						<label>Snowing</label>
-					</div>
+					<select name="weather" style="margin-right:20px">
+							<option value='A'>Clear</option>
+							<option value='B'>Cloudy</option>
+							<option value='C'>Raining</option>
+							<option value='D'>Snowing</option>
+							<option value='E'>Fog</option>
+							<option value='G'>Wind</option>
+							<option value='F'>Other</option>	
+							<option selected value='_'>Not Stated</option>
+					</select>
+				<br><br>
 					
-					<div class="input-group">
-						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
-						<label>Fog</label>
-					</div>
-					
-					<div class="input-group">
-						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
-						<label>Other</label>
-					</div>
-					
-					<div class="input-group">
-						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
-						<label>Wind</label>
-					</div>
-					
-				    <div class="input-group">
-						<div class="pad"><input type="radio" aria-label="Radio for following text input"></div>
-						<label>Not Stated</label>
-					</div><br>
-				<input type="submit">
+				<input type="hidden" name ="pointx" id = "pointx"/>	
+				<input type="hidden" name ="pointy" id = "pointy"/>	
+				</form>
 				</div>
 				<div class ="col-md-8">
-	  				<div id="chartContainer" style="height: 250px; width: 70%; padding: 15% 7%"></div>
+	  				<div style="margin:auto"> <div id= "predictmap"></div></div>
+					  <script type="text/javascript">
+					      function onMarkerClick(e)
+						  {
+							document.getElementById("pointx").value = e.latlng.lng;
+							document.getElementById("pointy").value = e.latlng.lat;
+							$.ajax({
+									url: '/predict',
+									data: $('form').serialize(),
+									type: 'POST',
+									success: function(response) {
+										e.target.bindPopup(response).openPopup();
+										console.log(response);
+									}
+									
+								});
+						  }
+						  var coordinates = JSON.parse({{ coordinates | tojson | safe}});
+						  var map = L.map('predictmap').setView([37.3, -121], 5);
+						  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+						  for(i=0;i<coordinates.length;i++)
+						  {
+							  var marker = L.marker([coordinates[i].y,coordinates[i].x]).addTo(map);
+							  marker.on('click', onMarkerClick);
+						  }
+						  
+					  </script>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-<script type="text/javascript">
-  window.onload = function () {
-    var chart = new CanvasJS.Chart("chartContainer",
-    {
-      title:{
-        text: "Number of Accidents  vs  Year - based on collision factors"
-      },
-
-      data: [
-
-      {
-        dataPoints: [
-        { x: 1, y: 20 , label: "2014"},
-        { x: 2, y: 40,  label: "2015" },
-        { x: 3, y: 24,  label: "2016"},
-        { x: 4, y: 29,  label: "2017"},
-        { x: 5, y: 20,  label: "2018"},
-        { x: 6, y: 30, label: "2019"},
-        { x: 7, y: 26,  label: "2020"},
-        { x: 8, y: 33,  label: "2020"}
-        ]
-      }
-      ]
-    });
-
-    chart.render();
-
-
-     
-  }
-  </script>
+	
 {% endblock %}
