@@ -3,6 +3,21 @@ import numpy as np
 import json
 from flask import Flask, render_template, request, url_for
 import predictions as pred
+from datetime import datetime
+from pedpredict import pedAccidents
+from mcpredict import mcAccidents
+from bcpredict import bcAccidents
+from tcpredict import tcAccidents
+
+
+ped_accidents = pedAccidents()
+ped_accidents.load_model("models/pedAccidents")
+mc_accidents = mcAccidents()
+mc_accidents.load_model("models/mcAccidents")
+bc_accidents = bcAccidents()
+bc_accidents.load_model("models/bcAccidents")
+tc_accidents = tcAccidents()
+tc_accidents.load_model("models/tcAccidents")
 
 app = Flask(__name__)
 posts= ''
@@ -68,14 +83,20 @@ def login():
 	
 @app.route('/predict', methods=['POST'])
 def predict():
+	col_datetime =  request.form['collision_datetime']
+	dt = datetime.strptime(col_datetime, "%Y-%m-%dT%H:%M")
 	w =  request.form['weather']
 	rc =  request.form['roadCondition']
 	rs =  request.form['roadSurface']
 	l =  request.form['lighting']
 	x =  request.form['pointx']
 	y =  request.form['pointy']
-	ped_involved = pred.predictPI(w,1,rc,rs,l,1640,float(x)*(-1),float(y))
-	return json.dumps({'status':'OK','ped':ped_involved[0]});
-
+	test_df= pred.processInput(w,dt.isoweekday(),rc,rs,l,dt.time().hour*100 + dt.time().minute,float(x)*(-1),float(y))
+	ped_involved=ped_accidents.predict(test_df)
+	mc_involved=mc_accidents.predict(test_df)
+	bc_involved=bc_accidents.predict(test_df)
+	tc_involved = tc_accidents.predict(test_df)
+	return json.dumps({'status':'OK','pedestrians':ped_involved,'motorcyclists':mc_involved,'bicyclists':bc_involved,'trucks':tc_involved});
+	
 if __name__ == '__main__':
 	app.run(debug=True)

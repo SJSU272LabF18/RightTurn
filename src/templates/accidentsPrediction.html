@@ -86,21 +86,46 @@
 									data: $('form').serialize(),
 									type: 'POST',
 									success: function(response) {
-										e.target.bindPopup(response).openPopup();
+										var preds = JSON.parse(response);
+										str_ped = "Watch out for pedestrians!<br/>";
+										str_mc = "Watch out for motorcyclists!<br/>";
+										str_bc = "Watch out for bicyclists!";
+										str_tc = "Watch out for Trucks!";
+										str = "";
+										if(preds.pedestrians[0] == 'Y')
+											str = str.concat(str_ped);
+										if(preds.motorcyclists[0] == 'Y')
+											str = str.concat(str_mc);
+										if(preds.bicyclists[0] == 'Y')
+											str = str.concat(str_bc);
+										if(preds.trucks[0] == 'Y')
+											str = str.concat(str_tc);
+										if(str == "")
+											str = "No Risk"
+										e.target.bindPopup(str).openPopup();
 										console.log(response);
 									}
 									
 								});
 						  }
-						  var coordinates = JSON.parse({{ coordinates | tojson | safe}});
+						  var marker=null;
+						  function onMapDblClick(e)
+						  {
+							if(marker !=null)
+								marker.remove();
+							marker = L.marker([e.latlng.lat,e.latlng.lng]).addTo(map);
+							marker.on('click', onMarkerClick);
+						  }
+						  //var coordinates = JSON.parse({{ coordinates | tojson | safe}});
 						  var map = L.map('predictmap').setView([37.3, -121], 5);
 						  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-						  for(i=0;i<coordinates.length;i++)
+						  
+						  /*for(i=0;i<coordinates.length;i++)
 						  {
 							  var marker = L.marker([coordinates[i].y,coordinates[i].x]).addTo(map);
 							  marker.on('click', onMarkerClick);
-						  }
-						  
+						  }*/
+						  map.on('dblclick',onMapDblClick)
 					  </script>
 				</div>
 			</div>
