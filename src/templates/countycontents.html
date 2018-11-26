@@ -1,0 +1,258 @@
+{% extends "header.html" %}
+
+{% set currenttab = 'county' %}
+{% block scriptcontent %}
+    
+
+
+      <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+      
+      <!--<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>-->
+      
+      <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'></script>
+
+
+  <script src="https://www.google.com/jsapi"></script> 
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> 
+
+<script type="text/javascript" src="/static/js/countymap.js"></script>
+  
+  <style type="text/css" >
+
+#accmap { height: 180px; }
+
+
+</style>
+
+{% endblock scriptcontent %}    
+    
+{% block bodycontent %}    
+
+	<br>
+	<div id="County Level" class="container" >
+	  <form  onchange="draw()">
+		  Select County:
+		  <select id="county"  style="margin-right:20px" >
+		    {% for id,name in counties %}
+			    {% if sel_county == id %}
+					<option selected value="{{ name }}">{{ name }}</option>
+				{% else %}
+					<option value="{{ name }}">{{ name }}</option>
+				{% endif %}
+			{% endfor %}
+		  </select>
+		  {% block addcombo %}{% endblock %}
+		  <br><br><br><br>
+
+     <div style="background-color:#F9F5F3;color:black;padding:20px;">
+  
+  <p><span id="total"></span></p><br />
+  <span id="ped"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span id="bi"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span id="truck"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span id="mot"></span><br />
+  
+</div> 
+
+	  </form>
+    <br><br><br><br>
+<div class="container">
+
+	  <nav>
+	  <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
+		    <a class="nav-item nav-link active" id="data" data-toggle="tab" href="#pills-data" role="tab" aria-controls="pills-data" aria-selected="true">Data</a>
+		    <a class="nav-item nav-link" id="map" data-toggle="tab" href="#pills-map" role="tab" aria-controls="pills-map" aria-selected="false">Map</a>
+		  
+	   </ul>
+	   </nav>
+		<div class="tab-content" id="pills-tabContent">
+		  <div class="tab-pane fade in active show" id="pills-data" role="tabpanel" aria-labelledby="data">
+       <p><div id='piechart_3d' style="width: 900px; height: 500px;"></div></p>
+			  <p> <div id="cs_piechart_3d" style="width: 900px; height: 500px;"></div></p>
+		  </div>
+		  <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="map">
+				<p> <div id ="accmap" style="height: 750px; border: 1px solid #AAA;"></div>
+		  </div>
+		</div>
+    
+	</div></div>
+  <script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+      
+      var dataFromJson = '{{data}}';
+       dataFromJson = dataFromJson.replace(/&#34;/g,'"');
+ 
+     var chart_data = JSON.parse(dataFromJson);
+     
+ 
+     var h = new Object(); 
+     for(i=0;i<counties_list.length;i++)
+     {  
+        
+var arrayAlameda = chart_data.rows.filter(function (el) {
+
+  return el.c[7].v == counties_list[i];
+});
+
+       h[counties_list[i]] = prefix+JSON.stringify(arrayAlameda)+suffix;
+}
+
+     google.setOnLoadCallback(drawChart);
+  
+    function drawChart() {
+
+        county = document.getElementById("county").value;   
+
+          var chartdata = new google.visualization.DataTable(h[county]);
+         
+          var pcf_result = google.visualization.data.group(
+  chartdata,
+  [2],
+  [{'column': 0, 'aggregation': google.visualization.data.count, 'type': 'number'}]
+  );  
+          var cs_result = google.visualization.data.group(
+  chartdata,
+  [1],
+  [{'column': 0, 'aggregation': google.visualization.data.count, 'type': 'number'}]
+  );  
+        
+          // this view can select a subset of the data at a time
+          var view_pcf = new google.visualization.DataView(pcf_result);
+
+          var view_cs = new google.visualization.DataView(cs_result);
+          // set chart options
+         var options_pcf = {
+        
+        title: 'Collision Percentage by Primary Collision Factor',
+       
+        is3D: true,
+         width:900,
+    height:500,"responsive": true,
+    "maintainAspectRatio": false // added due to graph issue
+         };
+         var options_cs = {
+        
+        title: 'Collision Percentage by Collision Severity',
+       
+        is3D: true,
+         width:900,
+    height:500,
+    "responsive": true,
+    "maintainAspectRatio": false
+         };
+
+         view_cs.setColumns([0,1]);
+         view_pcf.setColumns([0,1]);
+      
+    
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        
+
+        var chart_cs = new google.visualization.PieChart(document.getElementById('cs_piechart_3d'));
+        
+
+//function resizeChart () {
+    chart.draw(view_pcf, options_pcf);
+    chart_cs.draw(view_cs, options_cs);
+//}
+
+     
+      }
+
+     
+			
+  
+
+    function drawMap() {
+       
+     document.getElementById("accmap").style.borderStyle = "solid";
+    document.getElementById('accmap').innerHTML = "<div id='mapid' style='width: 100%; height: 100%;'></div>";
+       map = L.map( 'mapid', {
+    //center: [37.4716, 119.4179],
+    minZoom: 9,
+    zoom:11
+});
+
+       //36.7783° N, 119.4179° .setView([37.3, -121], 6)
+
+
+var total,ped_acc=0,bi_acc=0,mot_acc=0,truck_acc=0;
+var data=false;
+        L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    subdomains: ['a','b','c']
+}).addTo( map );
+       var county = document.getElementById("county").value;
+       //alert(c[county]);
+   var maxBounds = [
+    [c[county][0],c[county][1]], //Southwest
+    [c[county][2],c[county][3]]  //Northeast
+];
+       //"boundingbox":["32.5295219421387","42.0095024108887","-124.482009887695","-114.13077545166"]
+map.setMaxBounds(maxBounds);
+map.fitBounds(maxBounds);
+               var chart_data = JSON.parse(h[county]);
+               total=chart_data.rows.length;
+  var latlonset = false; 
+  for ( var i=0; i < total; ++i ) 
+  {  
+  try{
+        if(chart_data.rows[i].c[3].v=="Y")
+          ped_acc=ped_acc+1;
+          if(chart_data.rows[i].c[4].v=="Y")
+          bi_acc=bi_acc+1;
+        if(chart_data.rows[i].c[5].v=="Y")
+          mot_acc=mot_acc+1;
+        if(chart_data.rows[i].c[6].v=="Y")
+          truck_acc=truck_acc+1;
+      if (chart_data.rows[i].c[7].v==county && (!(chart_data.rows[i].c[8].v=='0.0' && chart_data.rows[i].c[9].v=='0.0')) && (!(chart_data.rows[i].c[8].v=='' ||chart_data.rows[i].c[9].v=='')))
+        { data=true;
+           L.marker( [chart_data.rows[i].c[9].v, chart_data.rows[i].c[8].v])
+              .bindPopup( '<p>Case ID&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[0].v+'<br />Collision Severity&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[1].v+'<br />Primary Collision Factor&nbsp:&nbsp'+chart_data.rows[i].c[2].v+'<br />Pedestrian Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[3].v+'<br />Bicycle Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[4].v+'<br />Motorcycle Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[5].v+'<br />Truck Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[6].v+'</p>' )
+              .addTo( map );
+              
+        }
+        
+      }
+      catch(e){
+          //catch and just suppress error
+      }
+  }
+
+         
+  
+ $("a[href='#pills-map']").on('shown.bs.tab', function(e) {
+      map.invalidateSize();
+ });
+ if(data==false)
+  {
+    document.getElementById('accmap').innerHTML="<br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspNo Data"; 
+    document.getElementById("accmap").style.borderStyle = "none";
+  }   
+document.getElementById('total').innerHTML="Total Collisions:"+total;
+document.getElementById('ped').innerHTML="Pedestrian Collisions:"+ped_acc;
+
+document.getElementById('bi').innerHTML="Bicycle Collisions:"+bi_acc;
+
+document.getElementById('mot').innerHTML="Motorcycle Collisions:"+mot_acc;
+
+document.getElementById('truck').innerHTML="Truck Collisions:"+truck_acc;
+}
+
+ 
+
+
+
+drawMap() ;
+function draw()
+  {
+    
+   drawMap() ;
+   drawChart();
+
+  }    
+			</script>
+
+
+
+		
+	 
+	
+{% endblock bodycontent %}
