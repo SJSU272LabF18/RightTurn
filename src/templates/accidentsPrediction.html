@@ -15,7 +15,7 @@
 				
 				<form >
 				  <h5>Date and Time</h5>
-				  <input type="datetime-local" name="collision_datetime">
+				  <input type="datetime-local" name="collision_datetime" id = "coldt" value ="{{ currentdttm }}>
 				  
 				<br><br>
 				
@@ -80,6 +80,9 @@
 					  <script type="text/javascript">
 					      function onMarkerClick(e)
 						  {
+							var valueDate = document.getElementById("coldt").value;
+							if(valueDate == null || valueDate == '')
+								document.getElementById("coldt").value = "{{ currentdttm }}";
 							document.getElementById("pointx").value = e.latlng.lng;
 							document.getElementById("pointy").value = e.latlng.lat;
 							$.ajax({

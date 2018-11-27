@@ -66,7 +66,7 @@ collisions_data_table.LoadData(data)
 collisions_json=collisions_data_table.ToJSon()
 
 
-
+currentdttm = datetime.now().strftime("%Y-%m-%dT%H:%M")
 @app.before_first_request
 def function_to_run_only_once():
 	#read data files
@@ -118,7 +118,7 @@ def countymap():
 
 @app.route("/accidents-prediction")
 def predictaccidents():
-    return render_template('accidentsPrediction.html',coordinates = json.dumps(coordinates))
+    return render_template('accidentsPrediction.html',coordinates = json.dumps(coordinates),,currentdttm=currentdttm)
 
 @app.route("/logout")
 def logout():
