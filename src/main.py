@@ -118,7 +118,7 @@ def countymap():
 
 @app.route("/accidents-prediction")
 def predictaccidents():
-    return render_template('accidentsPrediction.html',coordinates = json.dumps(coordinates),,currentdttm=currentdttm)
+    return render_template('accidentsPrediction.html',coordinates = json.dumps(coordinates),currentdttm=currentdttm)
 
 @app.route("/logout")
 def logout():
