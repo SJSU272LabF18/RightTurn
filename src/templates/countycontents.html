@@ -189,9 +189,11 @@ var data=false;
 map.setMaxBounds(maxBounds);
 map.fitBounds(maxBounds);
                var chart_data = JSON.parse(h[county]);
-               total=chart_data.rows.length;
-  var latlonset = false; 
-  for ( var i=0; i < total; ++i ) 
+               if(county=="LOS ANGELES")
+                 total=700;
+                else
+                  total=chart_data.rows.length;
+   for ( var i=0; i < total; ++i ) 
   {  
   try{
         if(chart_data.rows[i].c[3].v=="Y")
