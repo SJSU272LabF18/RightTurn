@@ -187,7 +187,7 @@ def predict():
 	l =  request.form['lighting']
 	x =  request.form['pointx']
 	y =  request.form['pointy']
-	test_df= pred.processInput(w,dt.isoweekday(),rc,rs,l,dt.time().hour*100 + dt.time().minute,float(x)*(-1),float(y))
+	test_df= pred.processInput(w,dt.isoweekday(),rc,rs,l,dt.time().hour*100 + dt.time().minute,float(x),float(y))
 	ped_involved=ped_accidents.predict(test_df)
 	mc_involved=mc_accidents.predict(test_df)
 	bc_involved=bc_accidents.predict(test_df)
