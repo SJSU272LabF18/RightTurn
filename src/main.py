@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, flash, redirect, session, abort
 import predictions as pred
 from datetime import datetime
 from pedpredict import pedAccidents
@@ -9,6 +9,19 @@ from mcpredict import mcAccidents
 from bcpredict import bcAccidents
 from tcpredict import tcAccidents
 import gviz_api
+import os
+
+
+import mysql.connector
+import time
+
+mydb = mysql.connector.connect(
+    host="localhost",
+  user="CMPE272",
+  passwd="Password",
+database="demodb"
+)
+mycursor = mydb.cursor()
 
 
 ped_accidents = pedAccidents()
@@ -84,13 +97,14 @@ def function_to_run_only_once():
 		coor['y'] = temp_df.iloc[i].POINT_Y
 		coordinates.append(coor)
 
-    
+
+nameV=""  
 		
 @app.route("/")
 @app.route("/home")
 
 def home():
-    return render_template('index.html',accidents_data = accidents_data)
+    return render_template('index.html',accidents_data = accidents_data, name=nameV)
 	
 @app.route("/searchbycounty")
 @app.route("/searchbycounty/dataview")
@@ -105,10 +119,63 @@ def countymap():
 @app.route("/accidents-prediction")
 def predictaccidents():
     return render_template('accidentsPrediction.html',coordinates = json.dumps(coordinates))
+
+@app.route("/logout")
+def logout():
+    time.sleep(0.5)
+    session['logged_in'] = False
+    return redirect('/')
+
 	
-@app.route("/login")	
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    error = None
+    if request.method == 'POST':
+        print(request.form["name"]+request.form["email"])
+        sql = "INSERT INTO Users (Name, Email, Password) VALUES (%s, %s, %s)"
+        values=(request.form["name"], request.form["email"], request.form["password"])
+        mycursor.execute(sql,values)
+        mydb.commit()
+
+        return redirect('/')
+    return render_template('Signup.html', error=error)
+
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    error = None
+    global nameV
+    if request.method == 'POST':
+        if request.form["password"]!='GoogleAuth' and request.form["password"]!='FacebookAuth':
+            print(request.form["Name"]+request.form["email"])
+            sql= "SELECT Password FROM Users where Email= %s"
+            email=(request.form["email"],)
+            mycursor.execute(sql,email)
+            myresult=mycursor.fetchone()
+
+            if myresult:
+                if request.form['password'] != myresult[0]:
+                    error = 'Invalid Credentials. Please try again.'
+                else:
+                    session['logged_in'] = True
+                    msql= "SELECT Name FROM Users where Email= %s"
+                    fetch=(request.form["email"],)
+                    mycursor.execute(msql,fetch)
+                    name=mycursor.fetchone()
+
+                    nameV=name[0]
+                    return redirect('/')
+
+            else:
+                error = 'Username not Present'
+        else:
+
+            nameV=request.form["email"]
+            print(nameV)
+            session['logged_in'] = True
+            time.sleep(0.5)  
+            return redirect('/')
+    return render_template('RegisterFG.jshtml', error=error)
 	
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -128,4 +195,5 @@ def predict():
 	return json.dumps({'status':'OK','pedestrians':ped_involved,'motorcyclists':mc_involved,'bicyclists':bc_involved,'trucks':tc_involved});
 	
 if __name__ == '__main__':
+	app.secret_key = os.urandom(12)
 	app.run(debug=True)

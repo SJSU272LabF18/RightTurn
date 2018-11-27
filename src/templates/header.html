@@ -11,10 +11,23 @@
     <title>Right Turn Accidents Analysis</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <style>
+
+  body {
+font-family: Georgia, serif;}
+
+
   .w3-btn {margin-bottom:10px;}
 
- 
+  table, th, td {
+    border: 1px solid black;
+  }
+  table#t01 th {
+    background-color: blue;
+    color: white;
+
+  }
     </style>
+  
  </head>
 
   {% block scriptcontent %}{% endblock %}
@@ -29,7 +42,7 @@
        
       {% set currenttab = currenttab|default('home') -%}
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Right Turn Accidents Analysis</a>
+        <a class="navbar-brand" href="/">Right Turn Accidents Analysis</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -46,8 +59,16 @@
           </ul>
           <form class="form-inline my-2 my-lg-0">
 
-            <button class="btn btn-default"><a href="/login">Log In</a></button>
-            <button class="btn btn-default" style = "margin-left:10px;"><a href="/signup">Sign Up</a></button>
+             {% block body %}
+        {% if session['logged_in'] %}
+        <p>Hi, {{name}}</p>
+        <p></p>
+        <a class="btn btn-outline-success my-2 my-sm-0 w3-black" style = "margin-left:10px;" href="/logout">Log Out</a>
+        {% else %}
+        <a class="btn btn-outline-success my-2 my-sm-0 w3-black" href="/login">Log In</a>
+        <a class="btn btn-outline-success my-2 my-sm-0 w3-black" style = "margin-left:10px;" href="/register">Sign Up</a>
+        {% endif %}
+        {% endblock %}
           </form>
         </div>
       </nav>

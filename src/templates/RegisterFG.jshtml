@@ -1,0 +1,143 @@
+<html>
+<head>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <meta name="google-signin-client_id" content="504615623979-bbfamv30afhek9iufolrmncfv36qv871.apps.googleusercontent.com">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/style.css" type="text/css">
+  <style>
+     .container{
+      margin-top: 100px;
+     }
+    .gsignin{
+      margin-left: 494px;
+     }
+    .fb-login-button{
+      margin-left: 494px;
+     }  
+    .data{
+      display: none;
+    }
+  </style>
+  
+</head>
+<body>
+  <div class="bg-image"></div>
+ <form action="" method="post">
+  <div class="container" align="center">
+      <h1><b>Welcome, Please Login</b></h1>
+      <br>
+        <input type="text" placeholder="Email" id="email" name="email" value="{{request.form.email }}"> 
+        <br>
+        <br>
+        <input type="text" placeholder="Name" id="name1" name="Name" value="Akshay"  hidden> 
+        <input type="password" placeholder="Password" id="pwd" name="password" value="{{request.form.password }}">
+        <br>
+        <br>
+        <input class="btn btn-primary btn-small " id="submit" type="submit" value="Login">
+        <br>
+     </div>
+ 
+ <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <div id="my-signin2" class="gsignin"></div>
+    <input type="text" placeholder="Name" id="name1" name="Name" value="Pagar"  hidden> 
+        
+ <script>
+    function onSuccess(googleUser) {
+     document.getElementById('name').innerText =googleUser.getBasicProfile().getName();
+     document.getElementById('email').innerText =googleUser.getBasicProfile().getEmail();
+     document.getElementById('email').value =googleUser.getBasicProfile().getName();
+     document.getElementById('pwd').value ="GoogleAuth";
+     document.getElementById('submit').click();
+     document.getElementById('pic').src = googleUser.getBasicProfile().getImageUrl();
+     document.getElementById("my-signin2").style.display="none"
+     document.getElementById("data").style.display="block"
+     }
+    function onFailure(error) {
+      console.log(error);
+    }
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 300,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'light',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+  </script>
+  <br> 
+  <div class="fb-login-button" onlogin="checkLoginState()" data-max-rows="1" data-size="large" data-width="300px" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+  <div id = "data" class="data">
+    <p>Profile Details: </p>
+    <p>Profile Pic: </p>
+    <img id="pic" width="100" height="100">
+    <p>Name: </p>
+    <p id="name"></p>
+    <p>Email Id: </p>
+    <p id="email" class="alert alert-danger"></p> 
+  </div>
+    <div id="status">
+  </div>
+  </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    
+  <div id="fb-root"></div>
+  <script>
+  (function(d, s, id) 
+  {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=1939221152861997&autoLogAppEvents=1';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  function checkLoginState() {
+
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else {
+      // The person is not logged into your app or we are unable to tell.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    }
+  }
+
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+      document.getElementById('email').value =response.name ;
+      document.getElementById('pwd').value ="FacebookAuth";
+      document.getElementById('submit').click();
+      
+        console.log(response);
+    
+    }, {scope: 'email'});
+  }
+</script>
+
+</body>
+</html>
