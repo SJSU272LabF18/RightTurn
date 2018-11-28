@@ -66,7 +66,7 @@ def getConditions(weather,day,lighting,roadcond,roadsurface,time):
 
 def processInput(weather,day,road_cond,road_surface,lighting,collisiontime,x,y):
     w,d,l,rc,rs,t = getConditions(weather, day,lighting,road_cond,road_surface,collisiontime)
-    collisions_attr_df = pd.DataFrame({'weatherA':w['A'],'weatherB':w['B'],'weatherC':w['C'],'weatherD':w['D'],                                   'weatherE':w['E'],'weatherF':w['F'],'weatherG':w['G'],'monday': d[1],                                   'tuesday': d[2], 'wednesday': d[3], 'thursday': d[4],                                   'friday': d[5], 'saturday': d[6],'lightingA':l['A'], 'lightingB':l['B'],                                       'lightingC':l['C'], 'lightingD':l['D'], 'lightingE':l['E'],                                   'road_cond_A':rc['A'], 'road_cond_B':rc['B'],'road_cond_C':rc['C'],                                   'road_cond_D':rc['D'],'road_cond_E':rc['E'], 'road_cond_F':rc['F'],                                   'road_cond_G':rc['G'], 'road_cond_H':rc['H'],'road_surface_A':rs['A'],                                   'road_surface_B':rs['B'], 'road_surface_C':rs['C'],'road_surface_D':rs['D']},index=[0])
+    collisions_attr_df = pd.DataFrame({'weatherA':w['A'],'weatherB':w['B'],'weatherC':w['C'],'weatherD':w['D'],                                   'weatherE':w['E'],'weatherF':w['F'],'weatherG':w['G'],'monday': d[1],                                   'tuesday': d[2], 'wednesday': d[3], 'thursday': d[4],                                   'friday': d[5], 'saturday': d[6],'lightingA':l['A'], 'lightingB':l['B'],                                       'lightingC':l['C'], 'lightingD':l['D'], 'lightingE':l['E'],                                   'road_cond_A':rc['A'], 'road_cond_B':rc['B'],'road_cond_C':rc['C'],                                   'road_cond_D':rc['D'],'road_cond_E':rc['E'], 'road_cond_F':rc['F'],                                   'road_cond_G':rc['G'], 'road_cond_H':rc['H'],'road_surface_A':rs['A'],                                   'road_surface_B':rs['B'], 'road_surface_C':rs['C'],'road_surface_D':rs['D'],'collision_time':t},index=[0])
     extra_features_pd = pd.DataFrame(0, index=np.arange(1), columns=features)
     url = 'https://places.demo.api.here.com/places/v1/discover/here?at='+str(y)+','+str(x)+'&app_id=78Lp3O0jOfOeUcc4N5uw&app_code=H159i5KjjZdyYwvKvL97uQ'
     response = requests.get(url)
@@ -82,7 +82,6 @@ def processInput(weather,day,road_cond,road_surface,lighting,collisiontime,x,y):
                 cat = categories[cat][0]
                 extra_features_pd[cat]+=1
     collisions_attr_df=pd.concat([extra_features_pd,collisions_attr_df],axis=1)
-    print(collisions_attr_df)
     return collisions_attr_df
 
 

@@ -13,16 +13,16 @@ import os
 from TimeSeriesPrediction import TimeSeriesPrediction
 
 
-import mysql.connector
+#import mysql.connector
 import time
 
-mydb = mysql.connector.connect(
-    host="localhost",
-  user="CMPE272",
-  passwd="Password",
-database="demodb"
-)
-mycursor = mydb.cursor()
+#mydb = mysql.connector.connect(
+#    host="localhost",
+#  user="root",
+#  passwd="mysql",
+#database="demodb"
+#)
+#mycursor = mydb.cursor()
 
 
 ped_accidents = pedAccidents()
