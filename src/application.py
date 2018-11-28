@@ -11,10 +11,10 @@ from tcpredict import tcAccidents
 import gviz_api
 import os
 from TimeSeriesPrediction import TimeSeriesPrediction
-
-
 import mysql.connector
 import time
+
+application = app = Flask(__name__)
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -36,7 +36,6 @@ tc_accidents.load_model("models/tcAccidents")
 timeSeriesPrediction = TimeSeriesPrediction()
 
 
-app = Flask(__name__)
 posts= ''
 county = 1
 counties = []
