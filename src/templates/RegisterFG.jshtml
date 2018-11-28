@@ -28,10 +28,10 @@
   <div class="container" align="center">
       <h1><b>Welcome, Please Login</b></h1>
       <br>
-        <input type="text" placeholder="Email" id="email" name="email" value="{{request.form.email }}"> 
+        <input type="email" placeholder="Email" id="email" name="email" value="{{request.form.email }}"> 
         <br>
         <br>
-        <input type="text" placeholder="Name" id="name1" name="Name" value="Akshay"  hidden> 
+        <input type="text" placeholder="name" id="name" name="name" value="{{request.form.name }}" hidden> 
         <input type="password" placeholder="Password" id="pwd" name="password" value="{{request.form.password }}">
         <br>
         <br>
@@ -47,7 +47,7 @@
     function onSuccess(googleUser) {
      document.getElementById('name').innerText =googleUser.getBasicProfile().getName();
      document.getElementById('email').innerText =googleUser.getBasicProfile().getEmail();
-     document.getElementById('email').value =googleUser.getBasicProfile().getName();
+     document.getElementById('name').value =googleUser.getBasicProfile().getName();
      document.getElementById('pwd').value ="GoogleAuth";
      document.getElementById('submit').click();
      document.getElementById('pic').src = googleUser.getBasicProfile().getImageUrl();
@@ -129,7 +129,7 @@
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
-      document.getElementById('email').value =response.name ;
+      document.getElementById('name').value =response.name ;
       document.getElementById('pwd').value ="FacebookAuth";
       document.getElementById('submit').click();
       

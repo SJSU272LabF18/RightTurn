@@ -173,7 +173,7 @@ def login():
                 error = 'Username not Present'
         else:
 
-            nameV=request.form["email"]
+            nameV=request.form["name"]
             print(nameV)
             session['logged_in'] = True
             time.sleep(0.5)  
