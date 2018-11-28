@@ -219,6 +219,23 @@ def forecast_killed():
     except Exception as e:
         return json.dumps({'status':'500', 'error': 'data not found'})    
 
+@app.route('/forecast/pedestrian/injured', methods=['POST'])
+def forecast_pedestrian_injured():
+    try:
+        location_county =  request.form['county']
+        years = int(request.form['years'])
+        return timeSeriesPrediction.predict_pedestrian_injured(location_county, years)
+    except Exception as e:
+        return json.dumps({'status':'500', 'error': 'data not found'})    
+
+@app.route('/forecast/bicyclist/injured', methods=['POST'])
+def forecast_bicyclist_injured():
+    try:
+        location_county =  request.form['county']
+        years = int(request.form['years'])
+        return timeSeriesPrediction.predict_bicyclist_injured(location_county, years)
+    except Exception as e:
+        return json.dumps({'status':'500', 'error': 'data not found'})    
 
 if __name__ == '__main__':
 	app.secret_key = os.urandom(12)

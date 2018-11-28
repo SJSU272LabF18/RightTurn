@@ -9,6 +9,8 @@ class TimeSeriesPrediction:
     dateColumn = 'COLLISION_DATE'
     injuredColumn = 'NUMBER_INJURED'
     killedColumn = 'NUMBER_KILLED'
+    pedestrian_injured = 'COUNT_PED_INJURED'
+    bicyclist_injured = 'COUNT_BICYCLIST_INJURED'
     dateFormat = '%Y-%m-%d'
     fileLocation = 'data/collisions.csv'
 
@@ -22,6 +24,12 @@ class TimeSeriesPrediction:
 
     def predict_killed(self, county, years):
         return self.predict_for_column(TimeSeriesPrediction.killedColumn, county, years)
+
+    def predict_pedestrian_injured(self, county, years):
+        return self.predict_for_column(TimeSeriesPrediction.pedestrian_injured, county, years)
+
+    def predict_bicyclist_injured(self, county, years):
+        return self.predict_for_column(TimeSeriesPrediction.bicyclist_injured, county, years)
 
     def predict_for_column(self, prediction_column, county, years):
         periods = 12 * years
