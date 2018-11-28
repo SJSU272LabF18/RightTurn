@@ -135,15 +135,15 @@ def home():
 @app.route("/searchbycounty/dataview")
 def countydata():
     county = request.args.get('county',default = 1,type = int)
-    return render_template('countycontents.html',counties = counties, sel_county = county,data=collisions_json)
+    return render_template('countycontents.html',counties = counties, sel_county = county,data=collisions_json, name=nameV)
 
 @app.route("/searchbycounty/mapview")
 def countymap():
-    return render_template('countycontents.html',counties = counties, sel_county = county,data=collisions_json)
+    return render_template('countycontents.html',counties = counties, sel_county = county,data=collisions_json, name=nameV)
 
 @app.route("/accidents-prediction")
 def predictaccidents():
-    return render_template('accidentsPrediction.html',coordinates = json.dumps(coordinates),currentdttm=currentdttm,logged_in = ('logged_in' in session and session['logged_in']))
+    return render_template('accidentsPrediction.html',coordinates = json.dumps(coordinates),currentdttm=currentdttm,logged_in = ('logged_in' in session and session['logged_in']), name=nameV)
 
 @app.route("/logout")
 def logout():
@@ -221,7 +221,7 @@ def predict():
     
 @app.route("/timeSeriesPrediction")
 def forecasting():
-    return render_template('timeSeriesPrediction.html',counties = counties,logged_in = ('logged_in' in session and session['logged_in']))
+    return render_template('timeSeriesPrediction.html',counties = counties,logged_in = ('logged_in' in session and session['logged_in']), name=nameV)
 
 @app.route('/forecast/injured', methods=['POST'])
 def forecast_injured():
