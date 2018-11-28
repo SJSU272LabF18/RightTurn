@@ -10,6 +10,7 @@ from bcpredict import bcAccidents
 from tcpredict import tcAccidents
 import gviz_api
 import os
+from TimeSeriesPrediction import TimeSeriesPrediction
 
 
 import mysql.connector
@@ -32,6 +33,8 @@ bc_accidents = bcAccidents()
 bc_accidents.load_model("models/bcAccidents")
 tc_accidents = tcAccidents()
 tc_accidents.load_model("models/tcAccidents")
+timeSeriesPrediction = TimeSeriesPrediction()
+
 
 app = Flask(__name__)
 posts= ''
@@ -194,6 +197,29 @@ def predict():
 	tc_involved = tc_accidents.predict(test_df)
 	return json.dumps({'status':'OK','pedestrians':ped_involved,'motorcyclists':mc_involved,'bicyclists':bc_involved,'trucks':tc_involved});
 	
+@app.route("/timeSeriesPrediction")
+def forecasting():
+    return render_template('timeSeriesPrediction.html',counties = counties)
+
+@app.route('/forecast/injured', methods=['POST'])
+def forecast_injured():
+    try:
+        location_county =  request.form['county']
+        years = int(request.form['years'])
+        return timeSeriesPrediction.predict_injured(location_county, years)
+    except Exception as e:
+        return json.dumps({'status':'500', 'error': 'data not found'})    
+
+@app.route('/forecast/killed', methods=['POST'])
+def forecast_killed():
+    try:
+        location_county =  request.form['county']
+        years = int(request.form['years'])
+        return timeSeriesPrediction.predict_killed(location_county, years)
+    except Exception as e:
+        return json.dumps({'status':'500', 'error': 'data not found'})    
+
+
 if __name__ == '__main__':
 	app.secret_key = os.urandom(12)
 	app.run(debug=True)

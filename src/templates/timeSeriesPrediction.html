@@ -1,0 +1,48 @@
+{% extends "header.html" %}
+{% block scriptcontent %}
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'new.css') }}">
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script type="text/javascript" src="static/js/timeSeriesPrediction.js"></script>
+{% endblock %}
+
+{% block bodycontent %}
+	<style>
+
+	</style>
+	<div class= "container time-series-forcasting">
+		<h3>County Summary</h3><br>
+		<div class = "row">
+			<div class="col-md-6">
+				<label  style="margin-right:20px" >County :</label>
+				<select id="county">
+					<option value=""> Select county</option>
+			    	{% for id, name in counties %}
+			    		<option value="{{ name }}">{{ name }}</option>
+					{% endfor %}
+			  	</select>
+			</div>
+		  	<div class="col-md-6">
+			  <ul class="nav" style="float: right">
+				  <li class="nav-item">
+				    <a class="nav-link active" href="#" id="1year">1 year</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" href="#" id="2year">2 year</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" href="#" id="5year">5 year</a>
+				  </li>
+				</ul>
+			</div>
+		</div>
+		<br></br>
+		<div class='row'>
+			<div class="col-md-6">
+				<div id="fatalities-prediction" style="width:100%; height:400px;"></div>
+			</div>
+			<div class="col-md-6">
+				<div id="injured-prediction" style="width:100%; height:400px;"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

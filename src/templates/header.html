@@ -5,29 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'style.css') }}"> please move this to specific html-->  
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'style.css') }}">   -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Right Turn Accidents Analysis</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <style>
-
-  body {
-font-family: Georgia, serif;}
-
-
-  .w3-btn {margin-bottom:10px;}
-
-  table, th, td {
-    border: 1px solid black;
-  }
-  table#t01 th {
-    background-color: blue;
-    color: white;
-
-  }
-    </style>
-  
  </head>
 
   {% block scriptcontent %}{% endblock %}
@@ -37,7 +19,8 @@ font-family: Georgia, serif;}
       {% set navigation_bar = [
       ('/home', 'home', 'Home'),
       ('/searchbycounty', 'county', 'Search by County'),
-      ('/accidents-prediction', 'accidents-prediction', 'Predict Accidents')
+      ('/accidents-prediction', 'accidents-prediction', 'Predict Accidents'),
+      ('/timeSeriesPrediction', 'timeSeriesPrediction', 'TimeSeriesPrediction')
          ]  -%}
        
       {% set currenttab = currenttab|default('home') -%}
@@ -63,10 +46,10 @@ font-family: Georgia, serif;}
         {% if session['logged_in'] %}
         <p>Hi, {{name}}</p>
         <p></p>
-        <a class="btn btn-outline-success my-2 my-sm-0 w3-black" style = "margin-left:10px;" href="/logout">Log Out</a>
+        <a class="btn my-2 my-sm-0 " style = "margin-left:10px; color:white" href="/logout">Log Out</a>
         {% else %}
-        <a class="btn btn-outline-success my-2 my-sm-0 w3-black" href="/login">Log In</a>
-        <a class="btn btn-outline-success my-2 my-sm-0 w3-black" style = "margin-left:10px;" href="/register">Sign Up</a>
+        <a class="btn my-2 my-sm-0 " style = "color:white" href="/login">Log In</a>
+        <a class="btn my-2 my-sm-0 " style = "margin-left:10px; color:white" href="/register">Sign Up</a>
         {% endif %}
         {% endblock %}
           </form>
