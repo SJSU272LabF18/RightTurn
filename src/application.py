@@ -218,7 +218,7 @@ def predict():
     
 @app.route("/timeSeriesPrediction")
 def forecasting():
-    return render_template('timeSeriesPrediction.html',counties = counties)
+    return render_template('timeSeriesPrediction.html',counties = counties,logged_in = ('logged_in' in session and session['logged_in']))
 
 @app.route('/forecast/injured', methods=['POST'])
 def forecast_injured():
