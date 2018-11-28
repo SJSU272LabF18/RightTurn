@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+ fetchNumberKilled("LOS ANGELES",1);
+ fetchNumberInjured("LOS ANGELES",1);
+
 document.getElementById("1year").addEventListener("click",function(){
 	var county = document.getElementById("county").value;
 	fetchNumberKilled(county,1);
@@ -16,6 +19,12 @@ document.getElementById("5year").addEventListener("click",function(){
 	fetchNumberInjured(county,5);
 });
 
+document.getElementById("county").addEventListener('change',function(){
+	var county = document.getElementById("county").value;
+	fetchNumberKilled(county,5);
+	fetchNumberInjured(county,5);
+});
+
 function fetchNumberKilled(county, year){
 	$.ajax({
 		url:'/forecast/killed',
@@ -24,6 +33,7 @@ function fetchNumberKilled(county, year){
 			years : year
 		},
 		type:'POST',
+		async: true,
 		success:function(data){
 			console.log(data);
 			var years = data.x_observed.concat(data.x_prediction);
@@ -47,6 +57,7 @@ function fetchNumberInjured(county, year){
 			years : year
 		},
 		type:'POST',
+		async: true,
 		success:function(data){
 			console.log(data);
 			var years = data.x_observed.concat(data.x_prediction);
@@ -69,7 +80,13 @@ function loadFatalitiesChart(years, f_observed, f_predicted, county,zerosArray){
 	        type: 'column'
 	    },
 	    title : {
-	    	text : 'Fatalities - ' + county.toLowerCase() + ' county' 
+	    	text : (function() {
+						if (county != "") {
+						  return 'Fatalities - ' + county.toLowerCase() + ' county' ;
+						} else {
+						  return 'Fatalities - All Counties';
+						}
+					})()
 	    },
 	    xAxis : {
 	       categories: years
@@ -101,7 +118,13 @@ function loadInjuredChart(years, i_observed, i_predicted, county,zerosArray){
 	        type: 'column'
 	    },
 	    title : {
-	    	text : 'No of People Injured - ' + county.toLowerCase() + ' county' 
+	    	text : (function() {
+						if (county != "") {
+						  return 'Number of People Injured - ' + county.toLowerCase() + ' county';
+						} else {
+						  return 'Number of People Injured - All Counties';
+						}
+			})()
  	    },
 	    xAxis : {
 	       categories: years
