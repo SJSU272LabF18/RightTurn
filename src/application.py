@@ -50,8 +50,10 @@ accidents_data=json.load(jsonfile)
 collisions_df = pd.DataFrame()
 county_df = pd.DataFrame()
 #screen2  preprocessing
-fields = ['CASE_ID','COUNTY', 'COLLISION_SEVERITY','PCF_VIOL_CATEGORY','POINT_X','POINT_Y','PEDESTRIAN_ACCIDENT','BICYCLE_ACCIDENT','MOTORCYCLE_ACCIDENT','TRUCK_ACCIDENT']
+fields = ['CASE_ID','COUNTY', 'COLLISION_SEVERITY','PCF_VIOL_CATEGORY','POINT_X','POINT_Y','PEDESTRIAN_ACCIDENT','BICYCLE_ACCIDENT','MOTORCYCLE_ACCIDENT','TRUCK_ACCIDENT','ACCIDENT_YEAR']
 collisions_df_chart = pd.read_csv('data/collisions.csv', skipinitialspace=True, usecols=fields, engine='python',sep = ',')
+collisions_df_chart = collisions_df_chart[collisions_df_chart.ACCIDENT_YEAR >=2016]
+
 collisions_df_chart['PCF_VIOL_CATEGORY'] = collisions_df_chart.PCF_VIOL_CATEGORY.astype('str')
 collisions_df_chart.COLLISION_SEVERITY.replace([1,2,3,4],["1 - Fatal","2 - Injury (Severe)","3 - Injury (Other Visible)","4 - Injury (Complaint of Pain)"], inplace=True)
 collisions_df_chart.PCF_VIOL_CATEGORY.replace(["-","0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"],["- - Not Stated","00 - Unknown","01 - Driving or Bicycling Under the Influence of Alcohol or Drug","02 - Impeding Traffic","03 - Unsafe Speed","04 - Following Too Closely","05 - Wrong Side of Road","06 - Improper Passing","07 - Unsafe Lane Change","08 - Improper Turning","09 - Automobile Right of Way","10 - Pedestrian Right of Way","11 - Pedestrian Violation","12 - Traffic Signals and Signs","13 - Hazardous Parking","14 - Lights","15 - Brakes","16 - Other Equipment","17 - Other Hazardous Violation","18 - Other Than Driver (or Pedestrian)","19 -","20 -","21 - Unsafe Starting or Backing","22 - Other Improper Driving","23 - Pedestrian or Other Under the Influence of Alcohol or Drug","24 - Fell Asleep"], inplace=True)
@@ -59,7 +61,7 @@ collisions_df_chart.PEDESTRIAN_ACCIDENT.fillna("N",inplace=True)
 collisions_df_chart.BICYCLE_ACCIDENT.fillna("N",inplace=True)
 collisions_df_chart.MOTORCYCLE_ACCIDENT.fillna("N",inplace=True)
 collisions_df_chart.TRUCK_ACCIDENT.fillna("N",inplace=True)
-description = [("CASE_ID","number"),("COLLISION_SEVERITY","string"),("PCF_VIOL_CATEGORY","string"),
+description = [("CASE_ID","number"),("ACCIDENT_YEAR","number"),("COLLISION_SEVERITY","string"),("PCF_VIOL_CATEGORY","string"),
                ("PEDESTRIAN_ACCIDENT","string"),
                ("BICYCLE_ACCIDENT","string"),
                ("MOTORCYCLE_ACCIDENT","string"),
@@ -71,6 +73,7 @@ collisions_data_table = gviz_api.DataTable(description)
 data=collisions_df_chart.values
 collisions_data_table.LoadData(data)
 collisions_json=collisions_data_table.ToJSon()
+
 
 
 currentdttm = datetime.now().strftime("%Y-%m-%dT%H:%M")

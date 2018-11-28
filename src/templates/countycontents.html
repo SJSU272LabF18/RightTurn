@@ -72,7 +72,7 @@
        
    var arrayAlameda = chart_data.rows.filter(function (el) {
    
-   return el.c[7].v == counties_list[i];
+   return el.c[8].v == counties_list[i];
    });
    
       h[counties_list[i]] = prefix+JSON.stringify(arrayAlameda)+suffix;
@@ -88,12 +88,12 @@
         
          var pcf_result = google.visualization.data.group(
    chartdata,
-   [2],
+   [3],
    [{'column': 0, 'aggregation': google.visualization.data.count, 'type': 'number'}]
    );  
          var cs_result = google.visualization.data.group(
    chartdata,
-   [1],
+   [2],
    [{'column': 0, 'aggregation': google.visualization.data.count, 'type': 'number'}]
    );  
        
@@ -173,25 +173,25 @@
    map.setMaxBounds(maxBounds);
    map.fitBounds(maxBounds);
               var chart_data = JSON.parse(h[county]);
-              if(county=="LOS ANGELES")
+              /*if(county=="LOS ANGELES")
                 total=700;
-               else
+               else*/
                  total=chart_data.rows.length;
    for ( var i=0; i < total; ++i ) 
    {  
    try{
-       if(chart_data.rows[i].c[3].v=="Y")
+       if(chart_data.rows[i].c[4].v=="Y")
          ped_acc=ped_acc+1;
-         if(chart_data.rows[i].c[4].v=="Y")
+         if(chart_data.rows[i].c[5].v=="Y")
          bi_acc=bi_acc+1;
-       if(chart_data.rows[i].c[5].v=="Y")
-         mot_acc=mot_acc+1;
        if(chart_data.rows[i].c[6].v=="Y")
+         mot_acc=mot_acc+1;
+       if(chart_data.rows[i].c[7].v=="Y")
          truck_acc=truck_acc+1;
-     if (chart_data.rows[i].c[7].v==county && (!(chart_data.rows[i].c[8].v=='0.0' && chart_data.rows[i].c[9].v=='0.0')) && (!(chart_data.rows[i].c[8].v=='' ||chart_data.rows[i].c[9].v=='')))
+     if (chart_data.rows[i].c[8].v==county && (!(chart_data.rows[i].c[9].v=='0.0' && chart_data.rows[i].c[10].v=='0.0')) && (!(chart_data.rows[i].c[9].v=='' ||chart_data.rows[i].c[10].v=='')))
        { data=true;
-          L.marker( [chart_data.rows[i].c[9].v, chart_data.rows[i].c[8].v])
-             .bindPopup( '<p>Case ID&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[0].v+'<br />Collision Severity&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[1].v+'<br />Primary Collision Factor&nbsp:&nbsp'+chart_data.rows[i].c[2].v+'<br />Pedestrian Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[3].v+'<br />Bicycle Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[4].v+'<br />Motorcycle Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[5].v+'<br />Truck Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[6].v+'</p>' )
+          L.marker( [chart_data.rows[i].c[10].v, chart_data.rows[i].c[9].v])
+             .bindPopup( '<p>Case ID&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[0].v+'<br />Collision Severity&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[2].v+'<br />Primary Collision Factor&nbsp:&nbsp'+chart_data.rows[i].c[3].v+'<br />Pedestrian Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[4].v+'<br />Bicycle Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[5].v+'<br />Motorcycle Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[6].v+'<br />Truck Accident&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp'+chart_data.rows[i].c[7].v+'</p>' )
              .addTo( map );
              
        }
