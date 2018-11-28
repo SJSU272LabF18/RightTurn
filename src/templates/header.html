@@ -44,7 +44,7 @@
 
              {% block body %}
         {% if session['logged_in'] %}
-        <p>Hi, {{name}}</p>
+        <p style="color:white; margin: 10px;"><b>Hi, {{name}}</b></p>
         <p></p>
         <a class="btn my-2 my-sm-0 " style = "margin-left:10px; color:white" href="/logout">Log Out</a>
         {% else %}
