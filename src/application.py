@@ -134,7 +134,7 @@ def home():
 @app.route("/searchbycounty")
 @app.route("/searchbycounty/dataview")
 def countydata():
-    county = request.args.get('county',default = 4,type = int)
+    county = request.args.get('county',default = 1,type = int)
     return render_template('countycontents.html',counties = counties, sel_county = county,data=collisions_json)
 
 @app.route("/searchbycounty/mapview")
