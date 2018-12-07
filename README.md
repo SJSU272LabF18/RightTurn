@@ -27,3 +27,10 @@ these spots based on analysis, number of accidents can be reduced.
 
 <b>Resources</b><br/><br/>
 Right turn accidents dataset.
+
+
+### Running the app
+Execute the following command inside src folder
+```
+$ python application.py
+```
