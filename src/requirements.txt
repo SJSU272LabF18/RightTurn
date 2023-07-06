@@ -3,7 +3,7 @@ Flask-RESTful==0.3.6
 numpy==1.15.4
 pandas==0.23.4
 sklearn==0.0
-scipy==1.1.0
+scipy==1.10.0
 SQLAlchemy==1.1.13
 mysql-connector==2.1.6
 joblib==0.13.0
